@@ -99,7 +99,8 @@ spec:
   {{- end }}
   ports:
   - protocol: TCP
-    port: 80
+    port: 443
+    targetPort: 80
 
 {{ if .Values.st2chatops.enabled -}}
 ---

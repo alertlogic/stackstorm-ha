@@ -106,8 +106,18 @@ Create the name of the stackstorm-ha service account to use
 {{- end -}}
 
 # For custom st2packs-Container reduce duplicity by defining it here once
+# If NFS is defined, use it.  If not, default to packs.images behavior
 {{- define "packs-volumes" -}}
-  {{- if .Values.st2.packs.images }}
+  {{- if .Values.st2.packs.nfs.server }}
+- name: st2-packs-vol
+  nfs:
+    server: {{ .Values.st2.packs.nfs.server }}
+    path: {{ .Values.st2.packs.nfs.packsPath }}
+- name: st2-virtualenvs-vol
+  nfs:
+    server: {{ .Values.st2.packs.nfs.server }}
+    path: {{ .Values.st2.packs.nfs.virtualenvsPath }}
+  {{- else if .Values.st2.packs.images }}
 - name: st2-packs-vol
   emptyDir: {}
 - name: st2-virtualenvs-vol

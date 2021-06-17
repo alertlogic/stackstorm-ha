@@ -180,14 +180,7 @@ spec:
           mountPath: /etc/st2/keys
           readOnly: true
         {{- end }}
-        {{- if .Values.st2.packs.images }}
-        - name: st2-packs-vol
-          mountPath: /opt/stackstorm/packs
-          readOnly: true
-        - name: st2-virtualenvs-vol
-          mountPath: /opt/stackstorm/virtualenvs
-          readOnly: true
-        {{- end }}
+        {{- include "packs-volume-mounts" . | nindent 8 }}
         resources:
           {{- toYaml .Values.st2api.resources | nindent 10 }}
     {{- if .Values.st2api.serviceAccount.attach }}
@@ -203,9 +196,7 @@ spec:
               path: datastore_key.json
         {{- end }}
         {{- include "st2-config-volume" . | nindent 8 }}
-        {{- if .Values.st2.packs.images }}
-{{- include "packs-volumes" . | indent 8 }}
-        {{- end }}
+        {{- include "packs-volumes" . | nindent 8 }}
     {{- if .Values.dnsPolicy }}
       dnsPolicy: {{ .Values.dnsPolicy }}
     {{- end }}
@@ -904,14 +895,7 @@ spec:
             name: {{ $.Release.Name }}-st2-urls
         volumeMounts:
         {{- include "st2-config-volume-mounts" $ | nindent 8 }}
-        {{- if $.Values.st2.packs.images }}
-        - name: st2-packs-vol
-          mountPath: /opt/stackstorm/packs
-          readOnly: true
-        - name: st2-virtualenvs-vol
-          mountPath: /opt/stackstorm/virtualenvs
-          readOnly: true
-        {{- end }}
+        {{- include "packs-volume-mounts" $ | nindent 8 }}
         {{- if $.Values.st2.datastore_crypto_key }}
         - name: st2-encryption-key-vol
           mountPath: /etc/st2/keys
@@ -932,9 +916,7 @@ spec:
               path: datastore_key.json
         {{- end }}
         {{- include "st2-config-volume" $ | nindent 8 }}
-        {{- if $.Values.st2.packs.images }}
-{{- include "packs-volumes" $ | indent 8 }}
-        {{- end }}
+        {{- include "packs-volumes" $ | nindent 8 }}
     {{- if $.Values.dnsPolicy }}
       dnsPolicy: {{ $.Values.dnsPolicy }}
     {{- end }}
@@ -1027,14 +1009,7 @@ spec:
           mountPath: /etc/st2/keys
           readOnly: true
         {{- end }}
-        {{- if .Values.st2.packs.images }}
-        - name: st2-packs-vol
-          mountPath: /opt/stackstorm/packs
-          readOnly: true
-        - name: st2-virtualenvs-vol
-          mountPath: /opt/stackstorm/virtualenvs
-          readOnly: true
-        {{- end }}
+        {{- include "packs-volume-mounts" . | nindent 8 }}
         resources:
           {{- toYaml .Values.st2actionrunner.resources | nindent 10 }}
     {{- if .Values.st2actionrunner.serviceAccount.attach }}
@@ -1058,9 +1033,7 @@ spec:
               path: stanley_rsa
               # 0400 file permission
               mode: 256
-        {{- if .Values.st2.packs.images }}
-{{- include "packs-volumes" . | indent 8 }}
-        {{- end }}
+        {{- include "packs-volumes" . | nindent 8 }}
     {{- if .Values.dnsPolicy }}
       dnsPolicy: {{ .Values.dnsPolicy }}
     {{- end }}
@@ -1266,14 +1239,7 @@ spec:
           mountPath: /etc/st2/keys
           readOnly: true
         {{- end }}
-        {{- if .Values.st2.packs.images }}
-        - name: st2-packs-vol
-          mountPath: /opt/stackstorm/packs
-          readOnly: true
-        - name: st2-virtualenvs-vol
-          mountPath: /opt/stackstorm/virtualenvs
-          readOnly: true
-        {{- end }}
+        {{- include "packs-volume-mounts" . | nindent 8 }}
         command:
           - 'bash'
           - '-ec'
@@ -1317,9 +1283,7 @@ spec:
               path: stanley_rsa
               # 0400 file permission
               mode: 256
-        {{- if .Values.st2.packs.images }}
-{{- include "packs-volumes" . | indent 8 }}
-        {{- end }}
+        {{- include "packs-volumes" . | nindent 8 }}
 
 {{ if .Values.st2chatops.enabled -}}
 ---

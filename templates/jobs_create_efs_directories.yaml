@@ -27,8 +27,8 @@ spec:
         args:
           - -c
           - >-
-              mkdir -p -m 777 /efs{{ .Values.st2.packs.volumes.packs.nfs.path }} /efs{{ .Values.st2.packs.volumes.packs.virtualenvs.path }} /efs{{ .Values.st2.packs.volumes.packs.configs.path }}  &&
-              chown -R {{ .Values.st2.efs.uid }}:{{ .Values.st2.efs.gid }} /efs{{ .Values.st2.packs.volumes.packs.nfs.path }} /efs{{ .Values.st2.packs.volumes.packs.virtualenvs.path }} /efs{{ .Values.st2.packs.volumes.packs.configs.path }} 
+              mkdir -p -m 777 /efs{{ .Values.st2.packs.volumes.packs.nfs.path }} /efs{{ .Values.st2.packs.volumes.virtualenvs.nfs.path }} /efs{{ .Values.st2.packs.volumes.configs.nfs.path }}  &&
+              chown -R {{ .Values.st2.efs.uid }}:{{ .Values.st2.efs.gid }} /efs{{ .Values.st2.packs.volumes.packs.nfs.path }} /efs{{ .Values.st2.packs.volumes.virtualenvs.nfs.path }} /efs{{ .Values.st2.packs.volumes.configs.nfs.path }} 
       volumes:
       - name: stackstorm-efs
         nfs:

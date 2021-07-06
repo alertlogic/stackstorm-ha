@@ -108,7 +108,7 @@ st2:
       # to enable st2.packs.volumes, st2.packs.images must not be empty
       enabled: false
 
-      packs: {} 
+      packs: {}
         # mounted to /opt/stackstorm/packs
         # packs volume definition is required if st2.packs.volumes is enabled
 

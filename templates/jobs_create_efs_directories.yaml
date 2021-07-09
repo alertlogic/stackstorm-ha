@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-job-create-efs-directories
+  labels:
+    app: st2-create-efs-directories
+    tier: backend
+    vendor: alertlogic
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "0"
+spec:
+  template:
+    spec:
+      containers:
+      - name: stackstorm-job-create-efs-directories
+        image: busybox
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+        - name: stackstorm-efs
+          mountPath: /efs
+          readOnly: false
+        command: ["/bin/sh"]
+        args:
+          - -c
+          - >-
+              mkdir -p -m 777 /efs{{ .Values.st2.packs.volumes.packs.nfs.path }} /efs{{ .Values.st2.packs.volumes.virtualenvs.nfs.path }} /efs{{ .Values.st2.packs.volumes.configs.nfs.path }}  &&
+              chown -R {{ .Values.st2.efs.uid }}:{{ .Values.st2.efs.gid }} /efs{{ .Values.st2.packs.volumes.packs.nfs.path }} /efs{{ .Values.st2.packs.volumes.virtualenvs.nfs.path }} /efs{{ .Values.st2.packs.volumes.configs.nfs.path }} 
+      volumes:
+      - name: stackstorm-efs
+        nfs:
+          server: {{ .Values.st2.packs.volumes.packs.nfs.server }}
+          path: /
+      restartPolicy: Never
+

@@ -138,6 +138,17 @@ st2:
         # mounted to /opt/stackstorm/configs
         # configs volume definition is optional, but only used if st2.packs.volumes is enabled
         # see the examples under st2.packs.volumes.packs
+    
+    # Custom Volume Image.
+    #
+    # If you are have volumes.enabled set to true and still wish to deploy a set of packs to the shared volume, define
+    # the repository, name, and tag here.  The register-content job will mount this container and copy it to the shared volume
+    # within an initContainer prior to running st2-register-content.
+    #
+    # custom_volume_image:
+    #   repository:
+    #   name:
+    #   tag:
 
     # https://docs.stackstorm.com/reference/ha.html#st2sensorcontainer
     # It is possible to run st2sensorcontainer in HA mode by running one process on each compute instance.

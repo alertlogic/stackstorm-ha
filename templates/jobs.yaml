@@ -375,6 +375,7 @@ spec:
       initContainers:
       {{- include "init-containers-wait-for-db" . | nindent 6 }}
       {{- include "packs-initContainers" . | nindent 6 }}
+      {{- include "packs-custom-volume-initContainers" . | nindent 6 }}
       containers:
       - name: st2-register-content
         image: '{{ template "imageRepository" . }}/st2actionrunner:{{ tpl (.Values.jobs.image.tag | default (.Values.st2actionrunner.image.tag | default .Values.image.tag)) . }}'

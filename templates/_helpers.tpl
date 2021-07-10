@@ -215,6 +215,25 @@ Create the name of the stackstorm-ha service account to use
   {{- end }}
 {{- end -}}
 
+{{- define "packs-custom-volume-initContainers" -}}
+  {{- if and $.Values.st2.packs.custom_volume_image $.Values.st2.packs.volumes.enabled }}
+# Custom volume pack - Installed if you have a shared mounted volume for packs
+- name: 'st2-custom-volume-pack-{{ printf "%s-%s-%s" .Values.st2.packs.custom_volume_image.repository .Values.st2.packs.custom_volume_image.name .Values.st2.packs.custom_volume_image.tag | sha1sum }}'
+  image: '{{ .Values.st2.packs.custom_volume_image.repository }}/{{ .Values.st2.packs.custom_volume_image.name }}:{{ .Values.st2.packs.custom_volume_image.tag }}'
+  imagePullPolicy: {{ .Values.image.pullPolicy }}
+  volumeMounts:
+  - name: st2-packs-vol
+    mountPath: /opt/stackstorm/packs-shared
+  - name: st2-virtualenvs-vol
+    mountPath: /opt/stackstorm/virtualenvs-shared
+  command:
+    - 'sh'
+    - '-ec'
+    - |
+      /bin/cp -aR /opt/stackstorm/packs/. /opt/stackstorm/packs-shared &&
+      /bin/cp -aR /opt/stackstorm/virtualenvs/. /opt/stackstorm/virtualenvs-shared
+  {{- end }}
+{{- end -}}
 
 # For custom st2packs-pullSecrets reduce duplicity by defining them here once
 {{- define "packs-pullSecrets" -}}

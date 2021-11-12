@@ -65,6 +65,9 @@ st2:
     [api]
     allow_origin = '*'
 
+  # Custom StackStorm config (st2.secret.conf) which will be created from an existing secret populated outside of this chart
+  existingConfigSecret: stackstorm-config-secret
+
   # This mirrors the [system_user] section of st2.conf, but makes the values available for helm templating.
   # If you change the user, you must provide a customized st2actionrunner image that includes your user.
   system_user:

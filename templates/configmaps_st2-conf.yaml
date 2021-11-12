@@ -27,15 +27,24 @@ data:
     url = redis://{{ template "redis-nodes" $ }}
     {{- end }}
     {{- if index .Values "rabbitmq" "enabled" }}
+    {{- if index .Values "rabbitmq" "existingPasswordSecret" }}
+    [messaging]
+    url = amqp://{{ required "rabbitmq.auth.username is required!" (index .Values "rabbitmq" "auth" "username") }}:{{ required "rabbitmq.auth.existingPasswordSecret is required!" (index .Values "rabbitmq" "auth" "existingPasswordSecret") }}@{{ .Release.Name }}-rabbitmq:5672{{ required "rabbitmq.ingress.path is required!" (index .Values "rabbitmq" "ingress" "path") }}
+    {{- else }}
     [messaging]
     url = amqp://{{ required "rabbitmq.auth.username is required!" (index .Values "rabbitmq" "auth" "username") }}:{{ required "rabbitmq.auth.password is required!" (index .Values "rabbitmq" "auth" "password") }}@{{ .Release.Name }}-rabbitmq:5672{{ required "rabbitmq.ingress.path is required!" (index .Values "rabbitmq" "ingress" "path") }}
+    {{- end }}
     {{- end }}
     {{- if index .Values "mongodb" "enabled" }}
     [database]
     {{- if index .Values "mongodb" "auth" "enabled" }}
+    {{- if index .Values "mongodb" "existingSecret" }}
+    password = {{ required "mongodb.auth.existingSecret is required!" (dict "existingSecret" .Values.mongodb.auth.existingSecret "key" "mongodb-password") }}
+    {{- else }}
+    password = {{ required "mongodb.auth.password is required!" (index .Values "mongodb" "auth" "password") }}
+    {{- end }}
     host = mongodb://{{ template "mongodb-nodes" $ }}/{{ required "mongodb.auth.database is required!" (index .Values "mongodb" "auth" "database") }}?authSource={{ required "mongodb.auth.database is required!" (index .Values "mongodb" "auth" "database") }}&replicaSet={{ index .Values "mongodb" "replicaSetName" }}
     username = {{ required "mongodb.auth.username is required!" (index .Values "mongodb" "auth" "username") }}
-    password = {{ required "mongodb.auth.password is required!" (index .Values "mongodb" "auth" "password") }}
     db_name = {{ required "mongodb.auth.database is required!" (index .Values "mongodb" "auth" "database") }}
     {{- else }}
     host = mongodb://{{ template "mongodb-nodes" $ }}/?replicaSet={{ index .Values "mongodb" "replicaSetName" }}

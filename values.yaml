@@ -20,8 +20,6 @@ image:
   # See: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   #pullSecret: "your-pull-secret"
 
-
-
 ##
 ## Service Account
 ##
@@ -93,7 +91,8 @@ st2:
     # For each given st2packs container you can define repository, name, tag and pullPolicy for this image below.
     # Multiple pack images can help when dealing with frequent updates by only rebuilding smaller images for desired packs
     # E.g. having all desired StackStorm-Exchange packs in one image and several custom packs in additional images
-    images: []
+    images:
+      []
       #- repository: index.docker.io/stackstorm
       #  name: st2packs
       #  tag: example
@@ -113,7 +112,8 @@ st2:
     volumes:
       enabled: false
 
-      packs: {}
+      packs:
+        {}
         # mounted to /opt/stackstorm/packs
         # packs volume definition is required if st2.packs.volumes is enabled
 
@@ -135,12 +135,14 @@ st2:
         #    clusterNamespace: rook-ceph
         #    path: /st2/packs
 
-      virtualenvs: {}
+      virtualenvs:
+        {}
         # mounted to /opt/stackstorm/virtualenvs
         # virtualenvs volume definition is required if st2.packs.volumes is enabled
         # see the examples under st2.packs.volumes.packs
 
-      configs: {}
+      configs:
+        {}
         # mounted to /opt/stackstorm/configs
         # configs volume definition is optional, but only used if st2.packs.volumes is enabled
         # Anything in `st2.packs.configs` will be added to this volume automatically on helm install/upgrade.
@@ -167,7 +169,8 @@ st2:
             memory: "100Mi"
             cpu: "50m"
         # Override default image settings (for now, only tag can be overridden)
-        image: {}
+        image:
+          {}
           ## Note that Helm templating is supported in this block!
           #tag: "{{ .Values.image.tag }}"
         # Additional advanced settings to control pod/deployment placement
@@ -244,7 +247,8 @@ ingress:
   # As recommended, ingress is disabled by default.
   enabled: false
   # Annotations are used to configure the ingress controller
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   # Map hosts to paths
@@ -282,7 +286,8 @@ st2web:
       memory: "100Mi"
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # TODO: Add Ingress setting as a way to expose service to public (#6).
@@ -322,7 +327,8 @@ st2auth:
       cpu: "50m"
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # Additional advanced settings to control pod/deployment placement
@@ -348,7 +354,8 @@ st2api:
       cpu: "25m"
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # Additional advanced settings to control pod/deployment placement
@@ -374,7 +381,8 @@ st2stream:
       cpu: "50m"
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # Additional advanced settings to control pod/deployment placement
@@ -400,7 +408,8 @@ st2rulesengine:
       cpu: "25m"
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # Additional advanced settings to control pod/deployment placement
@@ -425,7 +434,8 @@ st2timersengine:
       cpu: "10m"
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # Additional advanced settings to control pod/deployment placement
@@ -451,7 +461,8 @@ st2workflowengine:
       cpu: "100m"
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # Additional advanced settings to control pod/deployment placement
@@ -477,7 +488,8 @@ st2scheduler:
       cpu: "50m"
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # Additional advanced settings to control pod/deployment placement
@@ -503,7 +515,8 @@ st2notifier:
       cpu: "50m"
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # Additional advanced settings to control pod/deployment placement
@@ -529,7 +542,8 @@ st2actionrunner:
       memory: "200Mi"
       cpu: "75m"
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   annotations: {}
@@ -565,7 +579,8 @@ st2sensorcontainer:
       memory: "100Mi"
       cpu: "50m"
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   livenessProbe: {}
@@ -592,7 +607,8 @@ st2client:
   # HTTP_PROXY: http://proxy:1234
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # postStartScript is optional. It has the contents of a bash script.
@@ -613,7 +629,8 @@ st2garbagecollector:
       cpu: "10m"
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # Additional advanced settings to control pod/deployment placement
@@ -648,7 +665,8 @@ st2chatops:
     #ST2_API_KEY: 12345
   # Set custom generated st2chatops Docker image source
   # Otherwise default https://hub.docker.com/r/stackstorm/st2chatops is used
-  image: {}
+  image:
+    {}
     #repository: stackstorm
     #name: st2chatops
     ## Note that Helm templating is supported in this block!
@@ -685,12 +703,14 @@ jobs:
   annotations: {}
   # Override default image settings (for now, only tag can be overridden)
   # The Jobs use the st2actionrunner image
-  image: {}
+  image:
+    {}
     ## Note that Helm templating is supported in this block!
     #tag: "{{ .Values.image.tag }}"
   # If defined, this preRegisterContentCommand runs in an initContainer on the st2-register-content Job.
   # The initContainer also uses the st2actionrunner image but runs this command instead of its entrypoint.
-  preRegisterContentCommand: []
+  preRegisterContentCommand:
+    []
     # For example, to disable aliases in the "packs" system pack before content is registered:
     # - "/bin/bash"
     # - "-c"
@@ -733,15 +753,23 @@ mongodb:
     #
     # Stackstorm user that services will make connections using
     username: "st2-admin"
-    # Stackstorm user that services will make connections using
-    password: "XeL5Rxwj7F0Wt43tFZVTN7H8Sg5XDHmK"
-    # Root password for the database
-    rootPassword: "8fAzdnksdzPFUWm4a68EfY7nMhBPaa"
+    # # Stackstorm user that services will make connections using
+    # password: "XeL5Rxwj7F0Wt43tFZVTN7H8Sg5XDHmK"
+    # # Root password for the database
+    # rootPassword: "8fAzdnksdzPFUWm4a68EfY7nMhBPaa"
     # Initial database for stackstorm
     database: "st2"
-    # Minimal key length is 6 symbols
-    replicaSetKey: "82PItDpqroti5RngOA7UqbHH7c6bFUwy"
-    # Whether to enable the arbiter
+    # # Minimal key length is 6 symbols
+    # replicaSetKey: "82PItDpqroti5RngOA7UqbHH7c6bFUwy"
+    # Secret should contain keys: "mongodb-password, mongodb-root-password, mongodb-replica-set-key"
+    existingSecret: mongodb-secrets
+  # This cannot be changed after initial deployment
+  # Volumes must be expanded outside of the helm chart
+  persistence:
+    enabled: true
+    size: 50Gi
+    storageClass: gp3
+  # Whether to enable the arbiter
   arbiter:
     enabled: false
   resources: {}
@@ -764,10 +792,14 @@ rabbitmq:
   auth:
     username: admin
     # TODO: Use default random 10 character password, but need to fetch this string for use by downstream services
-    password: 9jS+w1u07NbHtZke1m+jW4Cj
-    # Up to 255 character string, should be fixed so that re-deploying the chart does not fail (see: https://github.com/helm/charts/issues/12371)
-    # NB! It's highly recommended to change the default insecure rabbitmqErlangCookie value!
-    erlangCookie: 8MrqQdCQ6AQ8U3MacSubHE5RqkSfvNaRHzvxuFcG
+    # password: 9jS+w1u07NbHtZke1m+jW4Cj
+    # # Up to 255 character string, should be fixed so that re-deploying the chart does not fail (see: https://github.com/helm/charts/issues/12371)
+    # # NB! It's highly recommended to change the default insecure rabbitmqErlangCookie value!
+    # erlangCookie: 8MrqQdCQ6AQ8U3MacSubHE5RqkSfvNaRHzvxuFcG
+    # PasswordSecret should contain key "rabbitmq-password"
+    existingPasswordSecret: rabbitmq-password
+    # ErlangSecret should contain key "rabbitmq-erlang-cookie"
+    existingErlangSecret: rabbitmq-erlang-cookie
   # RabbitMQ Memory high watermark. See: http://www.rabbitmq.com/memory.html
   # Default values might not be enough for StackStorm deployment to work properly. We recommend to adjust these settings for you needs as well as enable Pod memory limits via "resources".
   #rabbitmqMemoryHighWatermark: 512MB
@@ -831,7 +863,8 @@ redis:
 # "ClusterFirst" is the default. Other options: "Default", "ClusterFirstWithHostNet", "None"
 #dnsPolicy: "ClusterFirst"
 # https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-dns-config
-dnsConfig: {}
+dnsConfig:
+  {}
   # example copied from the docs
   #nameservers:
   #- 1.2.3.4

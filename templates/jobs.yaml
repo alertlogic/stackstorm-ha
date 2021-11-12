@@ -46,7 +46,6 @@ spec:
           - st2-apply-rbac-definitions
           - --verbose
           {{- include "st2-config-file-parameters" $ | nindent 8 }}
-          {{- end }}
         {{- if .Values.jobs.env }}
         env: {{- include "stackstorm-ha.customEnv" .Values.jobs | nindent 8 }}
         {{- end }}

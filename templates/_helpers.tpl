@@ -96,6 +96,16 @@ Create the name of the stackstorm-ha service account to use
 {{- end }}
 {{- end -}}
 
+# Override CMD CLI parameters passed to the startup of all pods to add support for /etc/st2/st2.secrets.conf
+{{- define "st2-config-file-parameters" -}}
+- --config-file=/etc/st2/st2.conf
+- --config-file=/etc/st2/st2.docker.conf
+- --config-file=/etc/st2/st2.user.conf
+{{- if .Values.st2.existingConfigSecret }}
+- --config-file=/etc/st2/st2.secrets.conf
+{{- end }}
+{{- end -}}
+
 {{- define "init-containers-wait-for-db" -}}
 {{- if index .Values "mongodb" "enabled" }}
 {{- $mongodb_port := (int (index .Values "mongodb" "service" "port")) }}

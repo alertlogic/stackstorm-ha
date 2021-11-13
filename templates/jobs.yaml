@@ -45,7 +45,7 @@ spec:
         command:
           - st2-apply-rbac-definitions
           - --verbose
-          {{- include "st2-config-file-parameters" $ | nindent 8 }}
+          {{- include "st2-config-file-parameters" . | nindent 10 }}
         {{- if .Values.jobs.env }}
         env: {{- include "stackstorm-ha.customEnv" .Values.jobs | nindent 8 }}
         {{- end }}
@@ -404,7 +404,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - st2-register-content
-          {{- include "st2-config-file-parameters" $ | nindent 8 }}
+          {{- include "st2-config-file-parameters" . | nindent 10 }}
           - --register-all
           - --register-fail-on-failure
         {{- if .Values.jobs.env }}

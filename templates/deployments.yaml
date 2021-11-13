@@ -84,7 +84,7 @@ spec:
         - containerPort: 9100
         command:
           - /opt/stackstorm/st2/bin/st2auth
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -200,7 +200,7 @@ spec:
         - containerPort: 9101
         command:
           - /opt/stackstorm/st2/bin/st2api
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -323,7 +323,7 @@ spec:
         - containerPort: 9102
         command:
           - /opt/stackstorm/st2/bin/st2stream
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -420,7 +420,7 @@ spec:
         - containerPort: 80
         command:
           - /opt/stackstorm/st2/bin/st2web
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # Probe to check if app is running. Failure will lead to a pod restart.
         livenessProbe:
           httpGet:
@@ -553,7 +553,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2rulesengine
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -667,7 +667,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2timersengine
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -768,7 +768,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2workflowengine
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
@@ -882,7 +882,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2scheduler
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -995,7 +995,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2notifier
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -1130,7 +1130,7 @@ spec:
         {{- if $one_sensor_per_pod }}
         command:
           - /opt/stackstorm/st2/bin/st2sensorcontainer
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
           - --single-sensor-mode
           - --sensor-ref={{ $sensor.ref }}
         {{- end }}
@@ -1259,7 +1259,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2actionrunner
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -1386,7 +1386,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2garbagecollector
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -1651,7 +1651,7 @@ spec:
         imagePullPolicy: {{ .Values.st2chatops.image.pullPolicy | default .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2chatops
-        {{- include "st2-config-file-parameters" $ | nindent 8 }}
+        {{- include "st2-config-file-parameters" . | nindent 10 }}
         {{- if not (hasKey .Values.st2chatops.env "ST2_API_KEY") }}
         env:
         - name: ST2_AUTH_USERNAME

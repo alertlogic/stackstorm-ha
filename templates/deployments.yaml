@@ -84,7 +84,7 @@ spec:
         - containerPort: 9100
         command:
           - /opt/stackstorm/st2/bin/st2auth
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -200,7 +200,7 @@ spec:
         - containerPort: 9101
         command:
           - /opt/stackstorm/st2/bin/st2api
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -323,7 +323,7 @@ spec:
         - containerPort: 9102
         command:
           - /opt/stackstorm/st2/bin/st2stream
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -550,7 +550,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2rulesengine
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -664,7 +664,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2timersengine
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -765,7 +765,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2workflowengine
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
@@ -879,7 +879,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2scheduler
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -992,7 +992,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2notifier
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -1126,7 +1126,7 @@ spec:
         {{- end }}
         command:
           - /opt/stackstorm/st2/bin/st2sensorcontainer
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         {{- if $one_sensor_per_pod }}
           - --single-sensor-mode
           - --sensor-ref={{ $sensor.ref }}
@@ -1256,7 +1256,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2actionrunner
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:
@@ -1383,7 +1383,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
           - /opt/stackstorm/st2/bin/st2garbagecollector
-        {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- include "st2-config-file-parameters" $ | nindent 10 }}
         # TODO: Add liveness/readiness probes (#3)
         #livenessProbe:
         #readinessProbe:

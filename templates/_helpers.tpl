@@ -79,7 +79,7 @@ Create the name of the stackstorm-ha service account to use
 - name: st2-config-vol
   mountPath: /etc/st2/st2.user.conf
   subPath: st2.user.conf
-{{- if .Values.st2.existingConfigSecret }}
+{{- if $.Values.st2.existingConfigSecret }}
 - name: st2-config-secrets-vol
   mountPath: /etc/st2/st2.secrets.conf
   subPath: st2.secrets.conf
@@ -89,7 +89,7 @@ Create the name of the stackstorm-ha service account to use
 - name: st2-config-vol
   configMap:
     name: {{ $.Release.Name }}-st2-config
-{{- if .Values.st2.existingConfigSecret }}
+{{- if $.Values.st2.existingConfigSecret }}
 - name: st2-config-secrets-vol
   secret:
     secretName: {{ $.Values.st2.existingConfigSecret }}
@@ -101,7 +101,7 @@ Create the name of the stackstorm-ha service account to use
 - --config-file=/etc/st2/st2.conf
 - --config-file=/etc/st2/st2.docker.conf
 - --config-file=/etc/st2/st2.user.conf
-{{- if .Values.st2.existingConfigSecret }}
+{{- if $.Values.st2.existingConfigSecret }}
 - --config-file=/etc/st2/st2.secrets.conf
 {{- end }}
 {{- end -}}

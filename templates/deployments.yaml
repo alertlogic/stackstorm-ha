@@ -1124,10 +1124,10 @@ spec:
         livenessProbe:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        {{- if $one_sensor_per_pod }}
         command:
           - /opt/stackstorm/st2/bin/st2sensorcontainer
         {{- include "st2-config-file-parameters" . | nindent 10 }}
+        {{- if $one_sensor_per_pod }}
           - --single-sensor-mode
           - --sensor-ref={{ $sensor.ref }}
         {{- end }}

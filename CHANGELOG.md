@@ -1,8 +1,30 @@
 # Changelog
 
 ## In Development
+* Advanced Feature: Make securityContext (on Deployments/Jobs) and podSecurityContext (on Pods) configurable. This allows dropping all capabilities, for example. You can override the securityContext for `st2actionrunner`, `st2sensorcontainer`, and `st2client` if your actions or sensors need, for example, additional capabilites that the rest of StackStorm does not need. (#271) (by @cognifloyd)
+* Prefix template helpers with chart name and format helper comments as template comments. (#272) (by @cognifloyd)
+* New feature: Add `extra_volumes` to all python-based st2 deployments. This can facilitate changing log levels by loading logging conf file(s) from a custom ConfigMap. (#276) (by @cognifloyd)
+* Initialize basic unittest infrastructure using `helm-unittest`. Added tests for custom annotations. (#284)
+* New Feature: Add `existingConfigSecret` .  If this is defined, the `st2.secrets.conf` key within this secret will be written as /etc/st2/st2.secrets.conf and added to the end of the command line arguments of all pods. (#289) (by @eric-al)
+
+## v0.80.0
+* Switch st2 to `v3.6` as a new default stable version (#274)
 * Explicitly differentiate sensor modes: `all-sensors-in-one-pod` vs `one-sensor-per-pod`. Exposes the mode in new `stackstorm/sensor-mode` annotation. (#222) (by @cognifloyd)
 * Allow adding custom env variables to any Deployment or Job. (#120) (by @AngryDeveloper)
+* Template the contents of st2.config and the values in st2chatops.env. This allows adding secrets defined elsewhere in values. (#249) (by @cognifloyd)
+* Set default/sample RBAC config files to "" (empty string) to prevent adding them. This is needed because they cannot be removed by overriding the roles/mappings values. (#247) (by @cognifloyd)
+* Make configuring `stackstorm/sensor-mode=all-sensors-in-one-pod` more obvious by using `st2.packs.sensors` only for `one-sensor-per-pod`. `all-sensors-in-one-pod` mode now only uses values from `st2sensorcontainer`. (#246) (by @cognifloyd)
+* Use "--convert" when loading keys into datastore (in key-load Job) so that `st2.keyvalue[].value` can be any basic JSON data type. (#253) (by @cognifloyd)
+* New feature: Add `extra_volumes` to `st2actionrunner`, `st2client`, `st2sensorcontainer`. This is useful for loading volumes to be used by actions or sensors. This might include secrets (like ssl certificates) and configuration (like system-wide ansible.cfg). (#254) (by @cognifloyd)
+* Some `helm upgrades` do not need to run all the jobs. An upgrade that only touches RBAC config, for example, does not need to run the register-content job. Use `--set 'jobs.skip={apikey_load,key_load,register_content}'` to skip the other jobs. (#255) (by @cognifloyd)
+* Refactor deployments/jobs to inject st2 username/password via `envFrom` instead of via `env`. (#257) (by @cognifloyd)
+* New feature: Add `envFromSecrets` to `st2actionrunner`, `st2client`, `st2sensorcontainer`, and jobs. This is useful for adding custom secrets to the environment. This complements the `extra_volumes` feature (loading secrets as files) to facilitate loading secrets that are not easily injected via the filesystem. (#259) (by @cognifloyd)
+* New feature to include `nodeSelector`, `affinity` and `tolerations` to `st2client`, allowing more flexibility to pod positioning. (#263) (by @sandesvitor)
+* Template `~/.st2/config`. This allows customizing the settings used by the `st2client` and jobs pods for using the st2 apis. (#262) (by @cognifloyd)
+* Fix indent for lifecycle postStart hook of `st2web` pod. (#268) (by @cognifloyd)
+* Advanced Feature: Allow `st2web` to serve HTTPS when the ssl certs are provided via `st2web.extra_volumes`. To enable this, add `ST2WEB_HTTPS: "1"` to `st2web.env` in your values file. (#264) (by @cognifloyd)
+* Custom annotations now apply to deployments and jobs, not just pods. (#270) (by @cognifloyd)
+* BREAKING CHANGE: Auto-generate `datastore_crypto_key` on install if not provided. This way all HA installs will have a datastore_crypto_key configured. This is only a breaking change for installations that do not want a `datastore_crypto_key`. To disable set `datastore_crypto_key` to `disable` instead of setting it to `""`, `null`, or leaving it unset. (#266) (by @cognifloyd)
 
 ## v0.70.0
 * New feature: Shared packs volumes `st2.packs.volumes`. Allow using cluster-specific persistent volumes to store packs, virtualenvs, and (optionally) configs. This enables using `st2 pack install`. It even works with `st2packs` images in `st2.packs.images`. (#199) (by @cognifloyd)
@@ -26,7 +48,7 @@
 * Fix a bug when datastore cryto keys are not able to read by the rules engine. ``datastore_crypto_key`` volume is now mounted on the ``st2rulesengine`` pods (#223) (by @moti1992)
 * Minimize required sensor config by using default values from st2sensorcontainer for each sensor in st2.packs.sensors (#221) (by @cognifloyd)
 * Do not template rabbitmq secrets file unless rabbitmq subchart is enabled. (#242) (by @cognifloyd)
-* Automatically st2chatop.env values if needed. (#241) (by @cognifloyd)
+* Automatically stringify st2chatop.env values if needed. (#241) (by @cognifloyd)
 
 ## v0.60.0
 * Switch st2 version to `v3.5dev` as a new latest development version (#187)

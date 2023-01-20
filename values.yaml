@@ -888,7 +888,7 @@ mongodb:
   # Ignored when mongodb.architecture=standalone
   replicaCount: 3
   auth:
-    enabled: true
+    existingSecret: "{{ .Release.Name }}" 
     # NB! It's highly recommended to change ALL insecure auth defaults!
     #
     # Stackstorm user that services will make connections using
